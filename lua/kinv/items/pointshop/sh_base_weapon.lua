@@ -26,12 +26,32 @@ function ITEM:GiveWeapon( )
 	self:GetOwner( ):Give( self.weaponClass )
 end
 
-function ITEM:PlayerSpawn( ply )
+function ITEM:PlayerLoadout( ply )
 	if ply == self:GetOwner( ) then
 		self:GiveWeapon( )
 	end
 end
-Pointshop2.AddItemHook( "PlayerSpawn", ITEM )
+Pointshop2.AddItemHook( "PlayerLoadout", ITEM )
+
+--Deathrun Support
+function ITEM:OnRoundSet( round, ... )
+	if round == ROUND_ACTIVE then
+		timer.Simple( 0, function( )
+			self:PlayerLoadout( self:GetOwner( ) ) --Pretend Loadout hook was executed
+		end )
+	end
+end
+Pointshop2.AddItemHook( "OnRoundSet", ITEM )
+
+if engine.ActiveGamemode( ) == "zombieescape" then
+	function ITEM:PlayerLoadout( ply )
+		timer.Simple( 3, function( )
+			if ply == self:GetOwner( ) then
+				self:GiveWeapon( )
+			end
+		end )
+	end
+end
 
 function ITEM.static:GetPointshopIconControl( )
 	return "DPointshopWeaponIcon"
