@@ -53,6 +53,12 @@ if engine.ActiveGamemode( ) == "zombieescape" then
 	end
 end
 
+if engine.ActiveGamemode( ) == "surf" then
+	hook.Add( "PlayerSpawn", "FixMessup", function( ply )
+		hook.Run( "PlayerLoadout", ply )
+	end )
+end
+
 function ITEM.static:GetPointshopIconControl( )
 	return "DPointshopWeaponIcon"
 end
