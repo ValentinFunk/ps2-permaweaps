@@ -7,3 +7,9 @@ hook.Add( "PS2_ModulesLoaded", "DLC_Weapons", function( )
 		creator = "DWeaponCreator"
 	} )
 end )
+
+hook.Add( "PS2_PopulateCredits", "AddCreditsPermweaps", function( panel )
+	panel:AddCreditSection( "Pointshop 2 Permanent Weapons", [[
+Pointshop 2 Permanent Weapons by Kamshak
+	]] )
+end )

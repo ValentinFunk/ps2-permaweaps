@@ -23,7 +23,7 @@ function PANEL:Think( )
 end
 
 function PANEL:SetItem( item )
-	self.item = item 
+	self.BaseClass.SetItem( self, item )
 	
 	local weapon = weapons.GetStored( item.weaponClass )
 	if weapon and weapon.WorldModel then
