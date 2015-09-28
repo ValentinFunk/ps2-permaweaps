@@ -10,6 +10,13 @@ function ITEM:CanBeUsed( )
 		return false, reason
 	end
 	
+	if engine.ActiveGamemode() == "terrortown" then
+		local canCarry = LocalPlayer():CanCarryType(WEPS.TypeForWeapon(self.weaponClass))
+		if not canCarry then
+			return false, LANG.GetParamTranslation("equip_carry_slot", {slot = ""})
+		end
+	end
+	
 	local ply = self:GetOwner( )
 	if not ply:Alive( ) or ( ply.IsSpec and ply:IsSpec( ) ) then
 		return false, "You need to be alive to use this item"
