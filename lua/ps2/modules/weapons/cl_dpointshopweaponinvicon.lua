@@ -25,12 +25,7 @@ end
 function PANEL:SetItem( item )
 	self.item = item 
 	
-	local weapon = weapons.GetStored( item.weaponClass )
-	if weapon and weapon.WorldModel then
-		self.modelPanel:SetModel( weapon.WorldModel )
-	else
-		self.modelPanel:SetModel( "models/error.mdl" )
-	end
+	self.modelPanel:SetModel( Pointshop2.GetWeaponWorldModel( item.weaponClass ) or "models/error.mdl" )
 	--self.modelPanel.Entity:SetPos( Vector( -100, 0, -61 ) )
 end
 

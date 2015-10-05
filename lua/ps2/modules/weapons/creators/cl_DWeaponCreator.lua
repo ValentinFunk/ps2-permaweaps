@@ -35,7 +35,7 @@ function PANEL:Init( )
 	self.manualEntry = vgui.Create( "DTextEntry", rightPnl )
 	self.manualEntry:Dock( TOP )
 	self.manualEntry:DockMargin( 5, 0, 5, 5 )
-	self.manualEntry:SetTooltip( "Click on the icon or manually enter the weapon class here and press enter" )
+	self.manualEntry:SetTooltip( "Click on the icon or manually enter the model path here and press enter" )
 	function self.manualEntry:OnEnter( )
 		local weapon = weapons.GetStored( self:GetText( ) )
 		if not weapon then
@@ -46,12 +46,23 @@ function PANEL:Init( )
 	
 	local cont = self:addFormItem( "Weapon", self.selectWeaponElem )
 	cont:SetTall( 64 )
+	
+	self.typeElem = vgui.Create( "DRadioChoice" )
+	self.typeElem:AddOption( "Primary" )
+	self.typeElem:AddOption( "Secondary" )
+	self.typeElem:SetSkin( Pointshop2.Config.DermaSkin )
+	self.typeElem:InvalidateLayout( )
+	self.typeElem:SetWide( 200 )
+	
+	local cont = self:addFormItem( "Type", self.typeElem )
+	cont:SetTall( 35 )
 end
 
 function PANEL:SaveItem( saveTable )
 	self.BaseClass.SaveItem( self, saveTable )
 	
 	saveTable.weaponClass = self.manualEntry:GetText( )
+	saveTable.loadoutType = self.typeElem:GetSelectedOption():GetText()
 end
 
 function PANEL:EditItem( persistence, itemClass )
@@ -62,6 +73,7 @@ function PANEL:EditItem( persistence, itemClass )
 	if weapon and weapon.WorldModel then
 		self.mdlPanel:SetModel( weapon.WorldModel )
 	end
+	self.typeElem:SelectChoiceByText( persistence.loadoutType )
 end
 
 function PANEL:Validate( saveTable )
@@ -70,11 +82,11 @@ function PANEL:Validate( saveTable )
 		return succ, err
 	end
 	
-	if not weapons.GetStored( saveTable.weaponClass ) then
+	if not Pointshop2.IsValidWeaponClass( saveTable.weaponClass ) then
 		return false, saveTable.weaponClass .. " is not a valid weapon class"
 	end
 	
 	return true
 end
 
-vgui.Register( "DSingleUseWeaponCreator", PANEL, "DItemCreator" )
+vgui.Register( "DWeaponCreator", PANEL, "DItemCreator" )
