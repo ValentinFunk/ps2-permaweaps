@@ -24,17 +24,7 @@ end
 
 function PANEL:SetItemClass( itemClass )
 	self.BaseClass.SetItemClass( self, itemClass )
-	local weapon = weapons.GetStored( itemClass.weaponClass )
-	if not weapon then
-		self.modelPanel:SetModel( "models/error.mdl" )
-		return 
-	end
-	if weapon.WorldModel then
-		util.PrecacheModel( weapon.WorldModel )
-		self.modelPanel:SetModel( weapon.WorldModel )
-	else
-		self.modelPanel:SetModel( "models/error.mdl" )
-	end
+	self.modelPanel:SetModel( Pointshop2.GetWeaponWorldModel( itemClass.weaponClass ) or "models/error.mdl" )
 end
 
 function PANEL:SetItem( item )
