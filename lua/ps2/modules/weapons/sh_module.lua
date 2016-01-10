@@ -9,6 +9,13 @@ MODULE.Author = "Kamshak"
 --creator is the name of the derma control that is used to create new items from the blueprint
 MODULE.Blueprints = {
 	{
+		label = "Insta-Weapon",
+		base = "base_weapon_instaswitch",
+		icon = "pointshop2/crime1.png",
+		creator = "DWeaponCreator",
+		tooltip = "Weapons are given on spawn and instantly when equipped. Can switch weapons during rounds."
+	},
+	{
 		label = "Perma-Weapon",
 		base = "base_weapon",
 		icon = "pointshop2/crime1.png",
@@ -21,20 +28,13 @@ MODULE.Blueprints = {
 		icon = "pointshop2/crime1.png",
 		creator = "DSingleUseWeaponCreator",
 		tooltip = "Weapon is are given only once when the item is used"
-	},
-	{
-		label = "Insta-Weapon",
-		base = "base_weapon_instaswitch",
-		icon = "pointshop2/crime1.png",
-		creator = "DWeaponCreator",
-		tooltip = "Weapons are given on spawn and instantly when equipped. Can switch weapons during rounds."
 	}
 }
 
 MODULE.SettingButtons = {}
 
 
-MODULE.Settings = { 
+MODULE.Settings = {
 	Shared = {},
 	Server = {}
 }

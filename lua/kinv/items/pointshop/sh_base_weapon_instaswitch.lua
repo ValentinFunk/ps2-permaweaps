@@ -7,13 +7,13 @@ ITEM.loadoutType = "Secondary"
 ITEM.category = "Weapons"
 
 function ITEM:OnEquip( )
-	if CLIENT then 
+	if CLIENT then
 		return
 	end
 	if not self:GetOwner( ):Alive( ) then
 		return
 	end
-	
+
 	if player.IsSpec and player:IsSpec() then
 		return
 	end
@@ -35,10 +35,10 @@ function ITEM:GiveWeapon( )
 		w.Primary.DefaultClip = 1
 		w.Secondary.DefaultClip = 1
 	end
-	
+
 	self:GetOwner( ):Give( self.weaponClass )
 	self:GetOwner( ):SelectWeapon( self.weaponClass )
-	
+
 	if w then
 		w.Primary.DefaultClip = oldDC
 		w.Secondary.DefaultClip = oldDC2
