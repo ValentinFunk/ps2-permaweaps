@@ -12,19 +12,22 @@ MODULE.Blueprints = {
 		label = "Perma-Weapon",
 		base = "base_weapon",
 		icon = "pointshop2/crime1.png",
-		creator = "DWeaponCreator"
+		creator = "DWeaponCreator",
+		tooltip = "Weapon is given when the player spawns. Cannot switch weapons during rounds."
 	},
 	{
 		label = "Single Use Weapon",
 		base = "base_single_use_weapon",
 		icon = "pointshop2/crime1.png",
-		creator = "DSingleUseWeaponCreator"
+		creator = "DSingleUseWeaponCreator",
+		tooltip = "Weapon is are given only once when the item is used"
 	},
 	{
 		label = "Insta-Weapon",
 		base = "base_weapon_instaswitch",
 		icon = "pointshop2/crime1.png",
-		creator = "DWeaponCreator"
+		creator = "DWeaponCreator",
+		tooltip = "Weapons are given on spawn and instantly when equipped. Can switch weapons during rounds."
 	}
 }
 
