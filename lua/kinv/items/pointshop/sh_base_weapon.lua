@@ -31,7 +31,9 @@ end
 
 function ITEM:PlayerLoadout( ply )
 	if ply == self:GetOwner( ) then
-		self:GiveWeapon( )
+		timer.Simple( 0.01, function()
+			self:GiveWeapon( )
+		end )
 	end
 end
 Pointshop2.AddItemHook( "PlayerLoadout", ITEM )
