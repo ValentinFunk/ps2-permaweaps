@@ -16,10 +16,24 @@ function ITEM:getIcon( )
 	return self.icon
 end
 
+/*
+	Give weapon on first equip to work around bug that happens when a player spawns
+	before their slots are loaded leading to weapons not working
+*/
 function ITEM:OnEquip( )
+	local ply = self:GetOwner( )
+	ply._hasEquipped = ply._hasEquipped or {}
+	if ply._hasEquipped[self.id] then
+		return
+	end
+
+	if ply:Alive( ) then
+		ply._hasEquipped[self.id] = true
+		self:GiveWeapon( )
+	end
 end
 
-function ITEM:OnHolster( ply )
+function ITEM:OnHolster( )
 end
 
 function ITEM:GiveWeapon( )
