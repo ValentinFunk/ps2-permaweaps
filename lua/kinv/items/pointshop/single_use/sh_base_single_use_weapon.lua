@@ -4,19 +4,19 @@ ITEM.baseClass = "base_single_use"
 ITEM.weaponClass = "weapon_357"
 ITEM.category = "Weapons"
 
-function ITEM:CanBeUsed( )	
-	local canBeUsed, reason = ITEM.super.CanBeUsed( self ) 
+function ITEM:CanBeUsed( )
+	local canBeUsed, reason = ITEM.super.CanBeUsed( self )
 	if not canBeUsed then
 		return false, reason
 	end
-	
+
 	if engine.ActiveGamemode() == "terrortown" then
 		local canCarry = LocalPlayer():CanCarryType(WEPS.TypeForWeapon(self.weaponClass))
 		if not canCarry then
 			return false, LANG.GetParamTranslation("equip_carry_slot", {slot = ""})
 		end
 	end
-	
+
 	local ply = self:GetOwner( )
 	if not ply:Alive( ) or ( ply.IsSpec and ply:IsSpec( ) ) then
 		return false, "You need to be alive to use this item"
@@ -30,6 +30,10 @@ end
 
 function ITEM.static:GetPointshopIconControl( )
 	return "DPointshopWeaponIcon"
+end
+
+function ITEM.static:GetPointshopLowendIconControl( )
+	return "DPointshopSimpleItemIcon"
 end
 
 function ITEM.static.getPersistence( )
