@@ -2,12 +2,12 @@ local PANEL = {}
 
 function PANEL:Init( )
 	self:addSectionTitle( "Weapon Selection" )
-	
+
 	self.selectWeaponElem = vgui.Create( "DPanel" )
 	self.selectWeaponElem:SetTall( 64 )
 	self.selectWeaponElem:SetWide( self:GetWide( ) )
 	function self.selectWeaponElem:Paint( ) end
-	
+
 	self.mdlPanel = vgui.Create( "SpawnIcon", self.selectWeaponElem )
 	self.mdlPanel:SetSize( 64, 64 )
 	self.mdlPanel:Dock( LEFT )
@@ -26,7 +26,7 @@ function PANEL:Init( )
 			window:Close()
 		end
 	end
-	
+
 	local rightPnl = vgui.Create( "DPanel", self.selectWeaponElem )
 	rightPnl:Dock( FILL )
 	function rightPnl:Paint( )
@@ -43,31 +43,32 @@ function PANEL:Init( )
 		end
 		frame.mdlPanel:SetModel( weapon.WorldModel )
 	end
-	
+
 	local cont = self:addFormItem( "Weapon", self.selectWeaponElem )
 	cont:SetTall( 64 )
-	
+
 	self.typeElem = vgui.Create( "DRadioChoice" )
-	self.typeElem:AddOption( "Primary" )
-	self.typeElem:AddOption( "Secondary" )
+	for k, v in pairs( Pointshop2.GetWeaponSlotNames( ) ) do
+		self.typeElem:AddOption( v )
+	end
 	self.typeElem:SetSkin( Pointshop2.Config.DermaSkin )
 	self.typeElem:InvalidateLayout( )
 	self.typeElem:SetWide( 200 )
-	
+
 	local cont = self:addFormItem( "Type", self.typeElem )
 	cont:SetTall( 35 )
 end
 
 function PANEL:SaveItem( saveTable )
 	self.BaseClass.SaveItem( self, saveTable )
-	
+
 	saveTable.weaponClass = self.manualEntry:GetText( )
 	saveTable.loadoutType = self.typeElem:GetSelectedOption():GetText()
 end
 
 function PANEL:EditItem( persistence, itemClass )
 	self.BaseClass.EditItem( self, persistence.ItemPersistence, itemClass )
-	
+
 	self.manualEntry:SetText( persistence.weaponClass )
 	local weapon = weapons.GetStored( persistence.weaponClass )
 	if weapon and weapon.WorldModel then
@@ -81,11 +82,11 @@ function PANEL:Validate( saveTable )
 	if not succ then
 		return succ, err
 	end
-	
+
 	if not Pointshop2.IsValidWeaponClass( saveTable.weaponClass ) then
 		return false, saveTable.weaponClass .. " is not a valid weapon class"
 	end
-	
+
 	return true
 end
 
