@@ -4,7 +4,9 @@ hook.Add( "PlayerLoadout", "CheckForPendingSlots", function( ply )
       for id, slot in pairs( ply.PS2_Slots ) do
         if Pointshop2.IsWeaponSlot( slot.slotName ) then
           local item = ply:PS2_GetItemInSlot( slot.slotName )
-          item:PlayerLoadout( ply )
+          if item then
+            item:PlayerLoadout( ply )
+          end
         end
       end
     end )
