@@ -11,7 +11,7 @@ function ITEM:CanBeUsed( )
 	end
 
 	if engine.ActiveGamemode() == "terrortown" then
-		local canCarry = LocalPlayer():CanCarryType(WEPS.TypeForWeapon(self.weaponClass))
+		local canCarry = self:GetOwner( ):CanCarryType(WEPS.TypeForWeapon(self.weaponClass))
 		if not canCarry then
 			return false, LANG.GetParamTranslation("equip_carry_slot", {slot = ""})
 		end
