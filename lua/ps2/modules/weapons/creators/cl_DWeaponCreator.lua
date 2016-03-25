@@ -52,11 +52,12 @@ function PANEL:Init( )
 		self.typeElem:AddOption( v )
 	end
 	self.typeElem:SetSkin( Pointshop2.Config.DermaSkin )
-	self.typeElem:InvalidateLayout( )
+	self.typeElem:InvalidateLayout( true )
 	self.typeElem:SetWide( 200 )
+	self.typeElem:SizeToChildren( false, true )
 
 	local cont = self:addFormItem( "Type", self.typeElem )
-	cont:SetTall( 35 )
+	cont:SizeToChildren( false, true )
 end
 
 function PANEL:SaveItem( saveTable )
