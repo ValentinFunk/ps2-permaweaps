@@ -31,11 +31,38 @@ MODULE.Blueprints = {
 	}
 }
 
-MODULE.SettingButtons = {}
+MODULE.SettingButtons = {
+	{
+		label = "Weapon Slots",
+		icon = "pointshop2/small43.png",
+		control = "DWeaponSlotsConfigurator"
+	}
+}
 
 
 MODULE.Settings = {
-	Shared = {},
+	Shared = {
+		WeaponSlots = {
+			info = {
+				label = "Weapon Slots",
+				isManualSetting = true, --Ignored by AutoAddSettingsTable
+			},
+			Slots = {
+				value = {
+					Primary = {
+						replaces = false
+					},
+					Secondary = {
+						replaces = false
+					},
+					Knife = {
+						replaces = "weapon_zm_improvised"
+					}
+				},
+				type = "table"
+			}
+		}
+	},
 	Server = {}
 }
 

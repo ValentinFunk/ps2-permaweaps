@@ -8,14 +8,43 @@ function Pointshop2.GetWeaponSlotNames( )
 	return table.GetKeys( Pointshop2.WeaponSlots )
 end
 
-function Pointshop2.AddWeaponsSlot( slotName )
+function Pointshop2.AddWeaponsSlot( slotName, replaceWeapon )
 	Pointshop2.WeaponSlots[slotName] = true
-
-	Pointshop2.AddEquipmentSlot( slotName, function( item )
+	local slot = {}
+	slot.order = math.huge
+	slot.canHoldItem = function( item )
 		--Check if the item is a Primary
 		return instanceOf( Pointshop2.GetItemClassByName( "base_weapon" ), item ) and item.loadoutType == slotName
-	end )
+	end
+	slot.name = slotName
+	slot.replaceWeapon = replaceWeapon
+	slot._autoAdded = true
+
+	Pointshop2.AddEquipmentSlotEx( slot )
 end
 
-Pointshop2.AddWeaponsSlot( "Primary" )
-Pointshop2.AddWeaponsSlot( "Secondary" )
+function Pointshop2.CheckWeaponReplace( item )
+	local ply = item:GetOwner()
+	local slotName = Pointshop2.FindSlotThatContains( ply, item )
+	local slot = Pointshop2.FindEquipmentSlot( slotName )
+	if slot.replaceWeapon then
+		ply:StripWeapon( slot.replaceWeapon )
+		timer.Simple(0.01, function() ply:SelectWeapon( item.weaponClass ) end)
+		print(item.weaponClass)
+	end
+end
+
+hook.Add( "PS2_OnSettingsUpdate", "LoadTheSlots", function( )
+	-- Remove previously generated slots
+	for k, v in pairs(Pointshop2.EquipmentSlots) do
+		if v._autoAdded then
+				Pointshop2.RemoveEquipmentSlot(v.name)
+		end
+	end
+
+	-- Add everything
+	local slotsSettings = Pointshop2.GetSetting( "PS2 Weapons", "WeaponSlots.Slots" )
+	for k, v in pairs( slotsSettings ) do
+		Pointshop2.AddWeaponsSlot( k, v.replaces )
+	end
+end )

@@ -26,6 +26,7 @@ function ITEM:GiveWeapon( )
 	if hook.Run( "PS2_WeaponShouldSpawn", self:GetOwner() ) == false then
 		return
 	end
+	Pointshop2.CheckWeaponReplace( self )
 	self:GetOwner( ):Give( self.weaponClass )
 end
 
