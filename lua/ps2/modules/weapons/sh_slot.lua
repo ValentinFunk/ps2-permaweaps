@@ -27,10 +27,13 @@ function Pointshop2.CheckWeaponReplace( item )
 	local ply = item:GetOwner()
 	local slotName = Pointshop2.FindSlotThatContains( ply, item )
 	local slot = Pointshop2.FindEquipmentSlot( slotName )
-	if slot.replaceWeapon then
+	if not slot then
+		KLogf( 3, "Couldn't find slot %s for item %s", tostring(slotName), tostring(item:GetPrintName()))
+		return
+	end
+	if slot and slot.replaceWeapon then
 		ply:StripWeapon( slot.replaceWeapon )
 		timer.Simple(0.01, function() ply:SelectWeapon( item.weaponClass ) end)
-		print(item.weaponClass)
 	end
 end
 
