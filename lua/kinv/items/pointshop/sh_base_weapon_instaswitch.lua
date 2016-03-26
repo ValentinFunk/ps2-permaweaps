@@ -10,11 +10,17 @@ function ITEM:OnEquip( )
 	if CLIENT then
 		return
 	end
+
 	if not self:GetOwner( ):Alive( ) then
 		return
 	end
 
+	local player = self:GetOwner()
 	if player.IsSpec and player:IsSpec() then
+		return
+	end
+
+	if player:Team() == TEAM_SPECTATOR then
 		return
 	end
 
