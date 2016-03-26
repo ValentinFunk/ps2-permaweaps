@@ -26,7 +26,7 @@ function InstaswitchWeaponPersistence.static.createOrUpdateFromSaveTable( saveTa
 	return Pointshop2.ItemPersistence.createOrUpdateFromSaveTable( saveTable, doUpdate )
 	:Then( function( itemPersistence )
 		if doUpdate then
-			return WeaponPersistence.findByItemPersistenceId( itemPersistence.id )
+			return InstaswitchWeaponPersistence.findByItemPersistenceId( itemPersistence.id )
 		else
 			local weaponPersistence = InstaswitchWeaponPersistence:new( )
 			weaponPersistence.itemPersistenceId = itemPersistence.id
