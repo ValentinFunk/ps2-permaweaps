@@ -29,7 +29,7 @@ function ITEM:OnUse( )
 end
 
 function ITEM.static:GetPointshopIconControl( )
-	return "DPointshopWeaponIcon"
+	return "DCsgoItemIcon"
 end
 
 function ITEM.static:GetPointshopLowendIconControl( )

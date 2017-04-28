@@ -66,7 +66,7 @@ if engine.ActiveGamemode( ) == "surf" then
 end
 
 function ITEM.static:GetPointshopIconControl( )
-	return "DPointshopWeaponIcon"
+	return "DCsgoItemIcon"
 end
 
 function ITEM.static.getPersistence( )
