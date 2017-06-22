@@ -9,7 +9,7 @@ function PANEL:Init( )
 	self.scroll = vgui.Create( "DScrollPanel", self )
 	self.scroll:Dock( FILL )
 	
-	for k, weapon in pairs( Pointshop2.GetWeaponsForPicker( ) ) do
+	for k, weapon in ipairs( Pointshop2.GetWeaponsForPicker( ) ) do
 		local pnl = vgui.Create( "DButton", self.scroll )
 		pnl:SetTall( 75 )
 		pnl:Dock( TOP )

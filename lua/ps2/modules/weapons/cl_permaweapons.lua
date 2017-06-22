@@ -16,16 +16,31 @@ end
 
 local function GetScriptedWeapons( ) 
 	-- Don't include weapon bases
-	return table.filter( weapons.GetList( ), function( weapon )
+	return LibK._.filter( weapons.GetList( ), function( weapon )
 		return not string.find( weapon.ClassName, "base" )
 	end )
 end
 
 function Pointshop2.GetWeaponsForPicker( )
+	local weapons
 	if engine.ActiveGamemode( ) == "terrortown" then
-		return GetScriptedWeapons( )
+		weapons = GetScriptedWeapons( )
+	else
+		weapons = table.Add( GetHL2Weapons( ), GetScriptedWeapons( ) )
 	end
-	return table.Add( GetHL2Weapons( ), GetScriptedWeapons( ) )
+
+	table.sort( weapons, function( a, b ) 
+		local aName = a.PrintName or a.ClassName
+		local bName = b.PrintName or b.ClassName
+		if LANG then
+			aName = LANG.TryTranslation( aName )
+			bName = LANG.TryTranslation( bName )
+		end
+
+		return aName < bName
+	end )
+
+	return weapons
 end
 
 function Pointshop2.IsValidWeaponClass( weaponClass )
