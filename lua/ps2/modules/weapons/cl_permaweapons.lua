@@ -60,3 +60,20 @@ function Pointshop2.GetWeaponWorldModel( weaponClass )
 	end
 	return "models/error.mdl"
 end
+
+local function checkSlotWeapons( )
+	local message = "[CRITICAL][ADMIN ONLY] There is a misconfiguration with your Permawepon Slots. The following slots have invalid weapon classes:\n\n"
+	local hasError = false
+	local slots = Pointshop2.GetSetting( "PS2 Weapons", "WeaponSlots.Slots" )
+	for slotName, info in pairs( slots ) do
+		if info.replaces and not weapons.GetStored( info.replaces ) then
+			message = message .. slotName .. " (" .. info.replaces .. "): Could not be found on the server.\n"
+			hasError = true
+		end
+	end
+
+	if LocalPlayer():IsAdmin() and hasError then
+		Pointshop2View:getInstance():displayError( message, 1000 )
+	end
+end
+hook.Add("InitPostEntity", "ErrorNotifierPerma", function() timer.Simple(5, checkSlotWeapons) end)
