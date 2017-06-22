@@ -52,11 +52,26 @@ function PANEL:Init( )
 		function pnl.DoClick( )
 			self.selectedWeapon = weapon.ClassName 
 			self.selectedModel = weapon.WorldModel
+
+			if engine.ActiveGamemode() == "terrortown" and not weapon.Kind then
+				Derma_Message( "You have chosen a weapon that is incompatible with TTT.\nIt will not work if equipped in TTT.\nLearn how to convert it: bit.ly/TTTWeapon")
+			end
+
 			self:OnChange()
 		end
 		
 		function pnl:Think()
 			self.mdlPanel:SetAnimated( self.Hovered )
+		end
+
+		if engine.ActiveGamemode() == "terrortown" and not weapon.Kind then
+			pnl.error = vgui.Create( "DLabel", pnl )
+			pnl.error:Dock( TOP )
+			pnl.error:DockMargin( 5, 0, 5, 0 )
+			pnl.error:SetText( "Incompatible with TTT" )
+			pnl.error:SetTooltip( "This weapon cannot be used with TTT. Contact the author to learn more." )
+			pnl.error:SetFont( self:GetSkin().fontName )
+			pnl.error:SetColor( Color( 255, 0, 0 ) )
 		end
 		
 		Derma_Hook( pnl, "Paint", "Paint", "Button" )
