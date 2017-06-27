@@ -76,4 +76,4 @@ local function checkSlotWeapons( )
 		Pointshop2View:getInstance():displayError( message, 1000 )
 	end
 end
-hook.Add("InitPostEntity", "ErrorNotifierPerma", function() timer.Simple(5, checkSlotWeapons) end)
+hook.Add("PS2_ClientSettingsUpdated", "ErrorNotifierPerma", function() timer.Simple(3, checkSlotWeapons) end)
