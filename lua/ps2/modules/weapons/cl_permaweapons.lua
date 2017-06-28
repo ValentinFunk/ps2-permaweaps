@@ -1,3 +1,18 @@
+local HoldTypeTranslate = {
+	["missile launcher"] = "rpg",
+	crowbar = "melee",
+	pistol = "pistol",
+	smg2 = "smg",
+	slam = "slam",
+	python = "revolver",
+	bow = "crossbow",
+	Grenade = "grenade",
+	stunbaton = "melee",
+	shotgun = "shotgun",
+	gauss = "physgun",
+	ar2 = "ar2"
+}
+
 local function GetHL2Weapons( )
 	local tbl = {}
 	for classname, info in pairs( list.Get( "Weapon" ) ) do
@@ -7,7 +22,8 @@ local function GetHL2Weapons( )
 			table.insert( tbl, {
 				WorldModel = infoTable.playermodel,
 				PrintName = language.GetPhrase( infoTable.printname ),
-				ClassName = classname
+				ClassName = classname,
+				HoldType = HoldTypeTranslate[infoTable.anim_prefix]
 			})
 		end
 	end
@@ -76,4 +92,6 @@ local function checkSlotWeapons( )
 		Pointshop2View:getInstance():displayError( message, 1000 )
 	end
 end
-hook.Add("PS2_ClientSettingsUpdated", "ErrorNotifierPerma", function() timer.Simple(3, checkSlotWeapons) end)
+hook.Add( "PS2_OnSettingsUpdate", "ErrorNotifierPerma", function( ) 
+	timer.Simple(3, checkSlotWeapons)
+end )
