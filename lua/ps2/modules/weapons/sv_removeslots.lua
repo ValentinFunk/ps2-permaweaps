@@ -128,7 +128,6 @@ function Pointshop2.RemoveSlots(slotNames)
   local affectedSlotsMap, affectedSlotsIds
   return Pointshop2.DB.DoQuery("SELECT * FROM ps2_equipmentslot WHERE slotName in (" .. table.concat(saveSlotNames, ",") .. ") and itemId IS NOT NULL")
   :Then( function( result )
-    PrintTable(result)
     local ownerIds = {}
     for k, v in pairs( result or {} ) do
       table.insert(ownerIds, v.ownerId)
