@@ -82,14 +82,19 @@ local function checkSlotWeapons( )
 	local hasError = false
 	local slots = Pointshop2.GetSetting( "PS2 Weapons", "WeaponSlots.Slots" )
 	for slotName, info in pairs( slots ) do
-		if info.replaces and not weapons.GetStored( info.replaces ) then
+		local shouldReplace = isstring(info.replaces) and info.replaces != "false"
+		if shouldReplace and not weapons.GetStored( info.replaces ) then
 			message = message .. slotName .. " (" .. info.replaces .. "): Could not be found on the server.\n"
 			hasError = true
 		end
 	end
 
+	if IsValid(LocalPlayer().permaWeaponErroPanel) and not hasError then
+		LocalPlayer( ).notificationPanel:ForceSlideOut( LocalPlayer().permaWeaponErrorPanel )
+	end
+
 	if LocalPlayer():IsAdmin() and hasError then
-		Pointshop2View:getInstance():displayError( message, 1000 )
+		LocalPlayer().permaWeaponErrorPanel = Pointshop2View:getInstance():displayError( message, 120 )
 	end
 end
 hook.Add( "PS2_OnSettingsUpdate", "ErrorNotifierPerma", function( ) 
