@@ -32,11 +32,11 @@ function Pointshop2.CheckWeaponReplace( item )
 		return
 	end
 
-	if not weapons.GetStored( slot.replaceWeapon ) then
+	if slot.replaceWeapon and slot.replaceWeapon != "false" and not weapons.GetStored( slot.replaceWeapon ) then
 		KLogf( 1, "You have set an invalid weapon class %s in your Pointshop 2 Weapon Slot settings for slot %s. Weapon replacing will not work.", tostring(slot.replaceWeapon), tostring(slotName))
 	end
 
-	if slot and slot.replaceWeapon then
+	if slot and slot.replaceWeapon and slot.replaceWeapon != "false" then
 		ply:StripWeapon( slot.replaceWeapon )
 		timer.Simple(0.01, function() ply:SelectWeapon( item.weaponClass ) end)
 	end
