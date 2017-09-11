@@ -78,7 +78,7 @@ function Pointshop2.GetWeaponWorldModel( weaponClass )
 end
 
 local function checkSlotWeapons( )
-	local message = "[CRITICAL][ADMIN ONLY] There is a misconfiguration with your Permawepon Slots. The following slots have invalid weapon classes:\n\n"
+	local message = "[WARNING][ADMIN ONLY] There is a possible misconfiguration with your Permaweapon Slots. The following slots have are set to replace weapons but the weapons do not seem to exist on the server:\n\n"
 	local hasError = false
 	local slots = Pointshop2.GetSetting( "PS2 Weapons", "WeaponSlots.Slots" )
 	for slotName, info in pairs( slots ) do
@@ -88,13 +88,47 @@ local function checkSlotWeapons( )
 			hasError = true
 		end
 	end
+	message = message .. "If you do not want to replace any weapons you can clear the replace settings for these slot(s).\n"
 
-	if IsValid(LocalPlayer().permaWeaponErroPanel) and not hasError then
+	if IsValid(LocalPlayer().permaWeaponErrorPanel) and not hasError then
 		LocalPlayer( ).notificationPanel:ForceSlideOut( LocalPlayer().permaWeaponErrorPanel )
 	end
 
 	if LocalPlayer():IsAdmin() and hasError then
-		LocalPlayer().permaWeaponErrorPanel = Pointshop2View:getInstance():displayError( message, 120 )
+		if IsValid(LocalPlayer( ).permaWeaponErrorPanel) then
+			LocalPlayer( ).notificationPanel:ForceSlideOut( LocalPlayer().permaWeaponErrorPanel )
+		end
+
+		local notification = vgui.Create( "KNotificationPanel" )
+		notification:setText( message )
+		notification:setIcon( "icon16/exclamation.png" )
+		notification.sound = "kreport/electric_deny2.wav"
+		notification:SetSkin( Pointshop2.Config.DermaSkin )
+		notification.duration = 30
+
+		local btn = vgui.Create( "DButton", notification )
+		btn:SetText( "Clear Replace Settings" )
+		function btn.DoClick() 
+			local newSettings = table.Copy( slots )
+			for slotName, info in pairs( newSettings ) do
+				local shouldReplace = isstring(info.replaces) and info.replaces != "false"
+				if shouldReplace and not weapons.GetStored( info.replaces ) then
+					info.replaces = false
+				end
+			end
+
+			btn:SetDisabled(true)
+			btn:SetText("Saving...")
+			Pointshop2View:getInstance():saveSettings(Pointshop2.GetModule("PS2 Weapons"), "Shared", { ["WeaponSlots.Slots"] = newSettings })
+		end
+		btn:SizeToContents()
+		btn:Dock( TOP )
+		btn:DockMargin( 5, 5, 5, 5 )
+		btn:SetTall( 30 )
+		notification:SetMouseInputEnabled( true )
+		btn:SetMouseInputEnabled( true )
+
+		LocalPlayer().permaWeaponErrorPanel = LocalPlayer( ).notificationPanel:addNotification( notification )
 	end
 end
 hook.Add( "PS2_OnSettingsUpdate", "ErrorNotifierPerma", function( ) 
