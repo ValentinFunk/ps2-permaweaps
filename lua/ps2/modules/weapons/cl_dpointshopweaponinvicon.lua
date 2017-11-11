@@ -26,6 +26,10 @@ function PANEL:SetItem( item )
 	self.BaseClass.SetItem( self, item )
 	
 	self.modelPanel:SetModel( Pointshop2.GetWeaponWorldModel( item.weaponClass ) or "models/error.mdl" )
+	local wep = weapons.GetStored(item.weaponClass)	
+	if wep and wep["SkinIndex"] then
+		self.modelPanel.Entity:SetSkin(wep["SkinIndex"])
+	end
 	--self.modelPanel.Entity:SetPos( Vector( -100, 0, -61 ) )
 end
 
