@@ -17,7 +17,12 @@ local fov = 70
 local function PaintWeaponIcon(itemClass)
     entity:SetAngles( Angle( 0, -25, 0 ) )
     entity:SetModel(Pointshop2.GetWeaponWorldModel( itemClass.weaponClass ) or "models/error.mdl")
-    entity:SetPos(Vector(0, 0, 2))
+	entity:SetPos(Vector(0, 0, 2))
+	
+	local wep = weapons.GetStored(itemClass.weaponClass)
+	if wep and wep["SkinIndex"] then
+		entity:SetSkin(wep["SkinIndex"])
+	end	
 
     local PrevMins, PrevMaxs = entity:GetRenderBounds()
     camPos = PrevMins:Distance(PrevMaxs) * Vector(0.65, 0.65, 0.5) 
