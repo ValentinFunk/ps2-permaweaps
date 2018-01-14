@@ -59,6 +59,33 @@ function Pointshop2.GetWeaponsForPicker( )
 	return weapons
 end
 
+function Pointshop2:GetAllWeaponClassnames()
+	local cls = LibK._.map(Pointshop2.GetWeaponsForPicker(), function(w) return w.ClassName end)
+	for k, v in pairs({
+		"weapon_357",
+		"weapon_alyxgun",
+		"weapon_annabelle",
+		"weapon_ar2",
+		"weapon_brickbat",
+		"weapon_bugbait",
+		"weapon_crossbow",
+		"weapon_crowbar",
+		"weapon_frag",
+		"weapon_physcannon",
+		"weapon_pistol",
+		"weapon_rpg",
+		"weapon_shotgun",
+		"weapon_smg1",
+		"weapon_striderbuster",
+		"weapon_stunstick",
+	}) do 
+		if not table.HasValue(cls, v) then
+			table.insert(cls, v)
+		end
+	end
+	return cls
+end
+
 function Pointshop2.IsValidWeaponClass( weaponClass )
 	for k, v in pairs( Pointshop2.GetWeaponsForPicker( ) ) do
 		if v.ClassName == weaponClass then
@@ -83,7 +110,7 @@ local function checkSlotWeapons( )
 	local slots = Pointshop2.GetSetting( "PS2 Weapons", "WeaponSlots.Slots" )
 	for slotName, info in pairs( slots ) do
 		local shouldReplace = isstring(info.replaces) and info.replaces != "false"
-		if shouldReplace and not weapons.GetStored( info.replaces ) then
+		if shouldReplace and not table.HasValue( Pointshop2:GetAllWeaponClassnames(), info.replaces ) then
 			message = message .. slotName .. " (" .. info.replaces .. "): Could not be found on the server.\n"
 			hasError = true
 		end
