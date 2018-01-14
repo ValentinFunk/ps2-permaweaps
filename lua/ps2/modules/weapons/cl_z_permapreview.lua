@@ -28,8 +28,6 @@ local function preDrawModel( self )
         if instanceOf(KInventory.Items.base_weapon, v) then
 			local weaponClassName = v.weaponClass
             if not WeaponInfoLookup[weaponClassName] then
-				dp( "no", weaponClassName )
-				dpt(WeaponInfoLookup)
 				continue
 			end
 
@@ -59,7 +57,8 @@ local function preDrawModel( self )
 		if self.Entity.CarriedWeapon.className != shouldShowClassName then
 			applyWeaponClassToProp( weaponClass, self.Entity, self.Entity.CarriedWeapon )
 			self.Entity.CarriedWeapon.className = shouldShowClassName
-			self.Entity:ResetSequence( self.Entity:LookupSequence( "idle_" .. weaponClass.HoldType ) )
+			local holdType = weaponClass.HoldType or "pistol"
+			self.Entity:ResetSequence( self.Entity:LookupSequence( "idle_" .. holdType ) )
 		end
 	end
 end
