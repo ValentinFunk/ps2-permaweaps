@@ -60,6 +60,8 @@ local function refundSlotItems( slots, kPlayerId )
         Pointshop2Controller:getInstance():startView( "Pointshop2View", "slotChanged", ply, slot )
     		KInventory.ITEMS[item.id]:OnHolster( )
         KInventory.ITEMS[item.id] = nil
+        Pointshop2.LogCacheEvent('REMOVE', 'removeSlot-refundSlotItem', item.id)
+        Pointshop2.DeactivateItemHooks(item)
       else
         table.insert(promises, Pointshop2.DB.DoQuery(Format("UPDATE ps2_wallet SET %s = %s + %i WHERE ownerId = %i", currency, currency, amount, kPlayerId)))
       end
