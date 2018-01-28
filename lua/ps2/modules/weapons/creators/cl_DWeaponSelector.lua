@@ -2,7 +2,7 @@ local PANEL = {}
 
 function PANEL:Init( )
 	self:SetSkin( Pointshop2.Config.DermaSkin )
-	self:SetSize( 300, 400 )
+	self:SetSize( 300, 600 )
 	
 	self:SetTitle( "Select a Weapon" )
 	
