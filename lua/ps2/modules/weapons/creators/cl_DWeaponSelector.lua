@@ -2,20 +2,25 @@ local PANEL = {}
 
 function PANEL:Init( )
 	self:SetSkin( Pointshop2.Config.DermaSkin )
-	self:SetSize( 300, 400 )
+	self:SetSize( 600, 600 )
 	
 	self:SetTitle( "Select a Weapon" )
 	
 	self.scroll = vgui.Create( "DScrollPanel", self )
 	self.scroll:Dock( FILL )
+
+	self.layout = vgui.Create("DIconLayout", self.scroll)
+	self.layout:Dock(TOP)
+	self.layout:SetSpaceX( 8 )
+	self.layout:SetSpaceY( 8 )
+	self.layout:DockMargin( 0, 6, 0, 0 )
 	
 	for k, weapon in ipairs( Pointshop2.GetWeaponsForPicker( ) ) do
-		local pnl = vgui.Create( "DButton", self.scroll )
+		local pnl = vgui.Create( "DButton", self.layout )
 		pnl:SetTall( 75 )
-		pnl:Dock( TOP )
+		pnl:SetWide( 280 )
 		pnl:DockPadding( 5, 5, 5, 5 )
 		pnl:SetText( "" )
-		pnl:DockMargin( 0, 5, 5, 5 )
 		
 		pnl.mdlPanel = vgui.Create( "DModelPanel", pnl )
 		pnl.mdlPanel:SetSize( 64, 64 )
