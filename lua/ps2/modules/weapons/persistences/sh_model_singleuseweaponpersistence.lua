@@ -1,4 +1,4 @@
-Pointshop2.SingleUseWeaponPersistence = class( "Pointshop2.WeaponPersistence" )
+Pointshop2.SingleUseWeaponPersistence = class( "Pointshop2.SingleUseWeaponPersistence" )
 local SingleUseWeaponPersistence = Pointshop2.SingleUseWeaponPersistence 
 
 SingleUseWeaponPersistence.static.DB = "Pointshop2"
